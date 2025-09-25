@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.target=Hotel
+comment0.text=\r\n\ Q2(a)\ create\ a\ public\ class\ called\ Hotel\ in\ the\ same\ BlueJ\ project.\r\n\ Edit\ the\ class\ comment\ so\ that\ it\ includes\ your\ own\ name\ and\ the\ date\r\n\ and\ a\ description\ of\ the\ class\ Hotel.\ Remove\ the\ sample\ field,\ constructor,\ and\ method.\r\n\ Write\ a\ description\ of\ class\ Hotel\ here.\r\n\r\n\ @author\ (David\ Shaun\ Brown)\r\n\ @version\ (2022.12.06)\r\n
+comment1.params=aName
+comment1.target=Hotel(java.lang.String)
+comment1.text=\r\n\ (c)Add\ a\ public\ constructor\ with\ one\ String\ parameter\ called\ aName\ to\ the\ Hotel\ class.\r\n\ The\ constructor\ should\ use\ its\ parameter\ to\ set\ the\ hotel\u2019s\ name.\r\n\ The\ constructor\ should\ also\ initialize\ the\ hotel\u2019s\ field\ rooms\ to\ an\ empty\ collection\r\nof\ the\ appropriate\ type.\r\n
+comment2.params=
+comment2.target=void\ addRooms()
+comment2.text=\r\n\ Use\ the\ following\ method\ in\ Question\ 2\ part\ (d)\r\n\ (d)\ Adds\ some\ unoccupied\ test\ rooms\ to\ the\ hotel\r\n
+comment3.params=room\ daysOccupied
+comment3.target=double\ calculateBill(Room,\ int)
+comment3.text=\r\n\ (e)calculateBill(Room,\ int)\ will\ calculate\ a\ bill\ for\ a\ room\ that\ is\ being\ vacated.\r\n\ The\ method\ has\ a\ parameter\ for\ the\ Room\ and\ the\ number\ of\ days\ the\ room\ was\ occupied.\r\n\ Calculate\ a\ bill\ for\ the\ room\ as\ its\ daily\ rate\ multiplied\ by\ the\ number\ of\ days\ the\ room\ was\ occupied.\r\n\ If\ the\ room\ was\ occupied\ for\ at\ least\ four\ days,\ a\ 10%\ discount\ to\ the\ overall\ bill\ is\ applied.\r\n\ The\ method\ should\ return\ the\ bill\ as\ a\ double\ value.\r\n\ You\ may\ assume\ that\ the\ number\ of\ days\ is\ at\ least\ 1.\r\n
+comment4.params=roomType
+comment4.target=java.util.ArrayList\ getMatchingRooms(java.lang.String)
+comment4.text=\r\n\ (f)\ getMatchingRooms(String)\ receives\ the\ type\ of\ a\ Room\ as\ a\ parameter\ \r\n\ and\ returns\ an\ ArrayList\ of\ rooms\ in\ the\ hotel\ whose\ types\ match\ the\ parameter\ and\ which\ are\ unoccupied.\r\n\ For\ example,\ calling\ the\ method\ with\ the\ parameter\ "Single"\ will\ return\ a\ list\ of\ all\ free\ rooms\ whose\ type\ is\ single.\r\n
+comment5.params=
+comment5.target=int\ vacancies()
+comment5.text=\r\n\ (g)\ vacancies()\ takes\ no\ parameters\ and\ returns\ the\ number\ of\ vacancies\ in\ the\ hotel\ rooms\ list\ as\ an\ int,\r\n\ based\ on\ 1\ vacancy\ for\ every\ single\ room,\ 2\ for\ every\ double\ room,\r\n\ and\ 4\ for\ every\ family\ room\ that\ is\ unoccupied.\r\n
+comment6.params=aRoom
+comment6.target=void\ bookRoom(Room)
+comment6.text=\r\n\ (h)\ bookRoom(Room)\ takes\ a\ Room\ as\ an\ argument\ and\ searches\ the\ rooms\ list\ for\ a\ room\ with\ a\ matching\ number.\r\n\ If\ a\ ma\ tch\ is\ found,\ the\ hotel\ room\ concerned\ has\ its\ guest\ field\ set\ to\ a\ dummy\ value\ "Guest".\r\n\ If\ no\ match\ is\ found\ the\ method\ does\ nothing.\ (Assume\ that\ room\ numbers\ are\ unique.)\r\n
+comment7.params=Number
+comment7.target=void\ removeRoom(java.lang.String)
+comment7.text=\r\n\ (i)\ removeRoom(String)\ is\ used\ to\ take\ a\ room\ out\ of\ service.\r\n\ It\ takes\ a\ room\ number\ as\ an\ argument\ and\ removes\ from\ the\ rooms\ collection\ the\ room\ with\ a\ matching\ number,\ if\ the\ number\ is\ found.\ \r\n\ If\ the\ room\ is\ not\ found\ the\ method\ prints\ "Room\ <number>\ not\ found\!"\ where\ <number>\ is\ the\ room\ number\ that\ was\ not\ found.\r\n
+numComments=8

@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=BusGate
+comment0.text=\ \r\n\ A\ Gate\ in\ an\ airport\ that\ requires\ a\ bus\ instead\ of\ a\ walkway\r\n\ It\ has\ a\ number\ and\ is\ for\ arrival\ or\ departure\r\n\ It's\ used\ for\ a\ particular\ flight\ number\ and\ may\ be\ open\ and\ closed\ for\ passengers\r\n\ Also\ denotes\ if\ a\ passenger\ lift\ is\ available\r\n\ \r\n\ @author\ David\ Shaun\ Brown\r\n\ @version\ 2023.05.01\r\n\ Question\ bi)\ Alter\ the\ BusGate\ class\ so\ that\ it\ is\ a\ subclass\ of\ Gate\r\n
+comment1.params=gateNum\ arrival\ fltNum\ liftAvailable
+comment1.target=BusGate(int,\ boolean,\ java.lang.String,\ boolean)
+comment1.text=\r\n\ Question\ 1\ bii)\ Write\ a\ public\ constructor\ for\ BusGate\r\n\ \r\n\ Constructor\ for\ the\ subclass\ BusGate\r\n\ @param\ \ int\ gateNum\ -\ the\ gate\ number\r\n\ @param\ boolean\ arrival\ -\ true\ for\ arrival,\ false\ for\ departure\r\n\ @param\ String\ fltNum\ -\ the\ flight\ number\ of\ plane\ using\ the\ gate\r\n\ @param\ boolean\ liftAvailable\ -\ true\ if\ lift\ isAvailable,\ false\ otherwise\r\n
+comment2.params=paxNum
+comment2.target=int\ busJourneys(int)
+comment2.text=\r\n\ Find\ the\ number\ of\ bus\ journeys\ required\ to\ transport\r\n\ passengers\ to\ or\ from\ a\ plane.\r\n\ @param\ paxNum\ The\ number\ of\ passengers\r\n\ @return\ The\ whole\ number\ of\ bus\ journeys\ that\ will\ be\r\n\ needed\ to\ transport\ the\ number\ of\ pasengers.\r\n
+comment3.params=a\ b
+comment3.target=int\ intCeil(int,\ int)
+comment4.params=
+comment4.target=java.lang.String\ toString()
+comment4.text=\r\n\ Question\ 1\ biv)\ Write\ a\ toString\ method\ in\ BusGate\ that\ overrides\ that\ in\ Gate\r\n\ \r\n\ Method\ that\ overrides\ that\ in\ Gate\ adding\ the\ availability\ of\ a\ passengerlift\r\n\ @return\ string\ representation\ of\ a\ BusGate\r\n
+comment5.params=obj
+comment5.target=boolean\ equals(java.lang.Object)
+comment5.text=\ Question\ 1\ bv)\ add\ an\ equals\ method\ to\ BusGate\ to\ override\ equals\ in\ Gate\ class\r\n\ \r\n\ overriding\ equals\ method\ in\ Gate\ class\r\n\ @param\ BusGate\ object\r\n\ @return\ true\ if\ BusGate\ objects\ are\ the\ same\ (gate\ number,\ flight\ number\ and\ lift\ availability)\r\n\ otherwise\ return\ false\ \r\n
+comment6.params=
+comment6.target=int\ hashCode()
+comment6.text=\r\n\ Question\ 1\ bvi)\ Add\ public\ hashcode\ method\r\n\ \r\n\ Adds\ a\ hashCode\ method\ to\ BusGate\ using\ the\ Objects.hash\ method,\ passing\ to\ it\r\n\ @param\ gate\ number\ and\r\n\ @param\ flight\ number\r\n\ @param\ is\ lift\ available\r\n\ \r\n\ @return\ a\ hashCode\r\n\ \r\n
+numComments=7

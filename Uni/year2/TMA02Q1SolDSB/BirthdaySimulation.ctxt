@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=BirthdaySimulation
+comment0.text=\r\n\ Q1\ (a)\r\n\ Birthday\ simulation\ \r\n\ Simulates\ a\ meeting\ of\ a\ given\ size\ and\ \r\n\ assigns\ random\ birthdays\ to\ attendees.\r\n\ Using\ this\ will\ determine\ probability\ that\ \r\n\ two\ attendees\ have\ the\ same\ birthday\ in\ a\ meeting\r\n\ of\ the\ given\ size.\r\n\ @author\ (David\ Shaun\ Brown)\r\n\ @version\ (20.23.02.23)\r\n
+comment1.params=
+comment1.target=BirthdaySimulation()
+comment2.params=
+comment2.target=java.lang.String\ ranMonth()
+comment2.text=\ Q1\ (c)\r\n\ creating\ method\ public\ String\ ranMonth()\r\n\ \r\n\ generate\ a\ randomly\ chosen\ month\r\n\ between\ 0\ and\ 11\ (inclusive)\r\n\r\n\ @return\ a\ random\ int\ between\ 0\ and\ 11\ inclusive\r\n\ which\ then\ coverts\ the\ random\ number\ into\ a\ month\r\n\ using\ the\ switch\ statement\r\n\ @return\ a\ string\ of\ the\ month\ for\ ranMonth()\r\n
+comment3.params=aMonth
+comment3.target=int\ ranDateInMonth(java.lang.String)
+comment3.text=Q1\ (d)\r\n\ creating\ method\ public\ in\ ranDateInMonth(String\ aMonth)\r\n\ Calulates\ a\ random\ date\ of\ the\ month\ for\ the\ input\ given\r\n\ Formula\ (max-min+1)+min\ gives\ range\ of\ days\ to\ randomly\ choose\ from\r\n\ @param\ aMonth\ a\ month\ of\ the\ year\r\n\ \r\n\ @return\ returns\ a\ random\ date\ in\ the\ month\ given\r\n
+comment4.params=numAttendees
+comment4.target=void\ createMeeting(int)
+comment4.text=Q1\ (e)\ \r\n\ Creating\ a\ method\ with\ header\ public\ void\ createMeeting(int\ numAttendees)\r\n\ @param\ numAttendees\ number\ of\ people\ at\ meeting\r\n\ Sets\ variable\ attendees\ to\ numAttendees\r\n\ A\ counter\ is\ initialised\r\n\ For\ the\ number\ of\ attendees,\ a\ random\ month\ and\ date\r\n\ are\ generated\ and\ added\ to\ the\ ArrayList\ bdays\r\n
+comment5.params=
+comment5.target=boolean\ foundMatch()
+comment5.text=Q1\ (f)\r\n\ Creating\ a\ method\ with\ header\ public\ boolean\ foundMatch()\r\n\ which\ checks\ if\ at\ least\ one\ \ repeated\ birthday\ in\ bdays\r\n\ or\ false\ otherwise\r\n\ \r\n\ @return\ a\ boolean\ value\ true,\ if\ there\ are\ repeated\ birthdays\r\n\ and\ false\ if\ not\r\n
+comment6.params=numAttendees
+comment6.target=double\ runSimulation(int)
+comment6.text=Q1\ (g)\r\n\ Creates\ a\ method\ with\ heaeder\ public\ double\ runSimulation(int\ numAttendees)\r\n\ Method\ takes\ a\ variable\ count\ to\ count\ how\ manymeetings\r\n\ with\ numAttendees\ people\ include\ at\ least\ one\ pair\ of\ people\r\n\ with\ amatching\ birhday\r\n\ \r\n\ @param\ an\ integer\ for\ numAteendees\r\n\ @return\ percentage\ chance\ of\ a\ meeting\ have\ matching\ birthdays\r\n
+numComments=7

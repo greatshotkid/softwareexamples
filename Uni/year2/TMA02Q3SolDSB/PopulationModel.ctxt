@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=PopulationModel
+comment0.text=\r\n\ Q3\ (a)\ adding\ new\ class\ PopulationModel\ and\ edited\ to\ include\r\n\ name,\ date\ and\ description\ of\ class\r\n\ \r\n\ The\ PopulationModel\ class\ models\ two\ colonies\ of\ animals\ that\r\n\ predate\ on\ each\ other\ and\ shows\ the\ resultant\ population\ of\ each\r\n\ colony\ for\ a\ set\ number\ of\ weeks\r\n\r\n\ @author\ (David\ Shaun\ Brown)\r\n\ @version\ (2023.03.01)\r\n
+comment1.params=
+comment1.target=PopulationModel()
+comment1.text=\r\n\ Q3\ (c)\ adding\ public\ constructor\ to\ initialise\ numA\ and\ NumB\ to\ \r\n\ be\ int\ arrays\ of\ length\ NUM_WEEKS.\r\n\ \r\n\ \r\n
+comment2.params=currentA\ currentB
+comment2.target=int\ newNumA(int,\ int)
+comment2.text=\ \r\n\ Q3\ (d)\r\n\ Write\ a\ method\ with\ the\ header\ public\ int\ newNumA(int\ currentA,\ int\ currentB)\r\n\ \r\n\ This\ method\ calculates\ the\ number\ of\ animals\ left\ in\ colony\ A\r\n\ in\ the\ given\ week,\ based\ on\ the\ numbers\ in\ the\ two\ colonies\ in\r\n\ the\ previous\ week.\r\n\ This\ number\ is\ given\ by\ expression\:\ currentA-KILL_RATEB*currentB\r\n\ \r\n\ @param\ int\ currentA\ is\ population\ of\ A\ from\ previous\ week\r\n\ @param\ int\ currentB\ is\ population\ of\ B\ from\ previous\ week\r\n\ @param\ double\ aDouble\ is\ result\ of\ expression\ above,\ used\ as\ in\ put\ to\ return\ an\ int\r\n\ @return\ returns\ number\ of\ animals\ in\ colony\ A\ >\ 0\ and\ 0\ otherwise\r\n
+comment3.params=currentA\ currentB
+comment3.target=int\ newNumB(int,\ int)
+comment3.text=\ \r\n\ Q3\ (e)\r\n\ Write\ a\ method\ with\ the\ header\ public\ int\ newNumB(int\ currentA,\ int\ currentB)\r\n\ \r\n\ This\ method\ calculates\ the\ number\ of\ animals\ left\ in\ colony\ B\r\n\ in\ the\ given\ week,\ based\ on\ the\ numbers\ in\ the\ two\ colonies\ in\r\n\ the\ previous\ week.\r\n\ This\ number\ is\ given\ by\ expression\:\ currentB-KILL_RATEA*currentA\r\n\ \r\n\ @param\ int\ currentA\ is\ population\ of\ A\ from\ previous\ week\r\n\ @param\ int\ currentB\ is\ population\ of\ B\ from\ previous\ week\r\n\ @param\ double\ aDouble\ is\ result\ of\ expression\ above,\ used\ as\ in\ put\ to\ return\ an\ int\r\n\ @return\ returns\ number\ of\ animals\ in\ colony\ A\ >\ 0\ and\ 0\ otherwise\r\n
+comment4.params=thisWeek
+comment4.target=void\ storeNewPopulations(int)
+comment4.text=\r\n\ Q3\ (f)\ Write\ a\ method\ with\ the\ header\ public\ void\ storeNewPopulations(int\ thisWeek)\r\n\ \r\n\ This\ method\ uses\ values\ from\ newNumA\ and\ newNumB\ to\ find\ populations\r\n\ of\ colony\ A\ and\ colony\ B\ for\ next\ week\ based\ on\ the\ index\ thisWeek.\r\n\ \r\n\ New\ populations\ are\ stored\ in\ appropriate\ indexes\ of\ newA\ and\ newB\ arrays\r\n\ \r\n\ @param\ int\ thisWeek\ used\ to\ calculate\ next\ weeks\ populations\r\n
+comment5.params=
+comment5.target=void\ createData()
+comment5.text=\r\n\ Q3\ (g)\ Write\ a\ method\ with\ the\ header\ public\ void\ createData()\r\n\ \r\n\ This\ method\ uses\ a\ loop\ to\ call\ storeNewPopulations\ method\r\n\ with\ each\ of\ the\ possible\ array\ indexes\ in\ turn\ as\ a\ parameter\r\n\ except\ for\ the\ last\ array\ index\r\n
+comment6.params=
+comment6.target=void\ printBarChart()
+comment6.text=\r\n\ Q3\ (h)\ Write\ a\ public\ method\ printBarChart\r\n\ \r\n\ This\ method\ has\ no\ parameters\ and\ does\ not\ return\ a\ value,\r\n\ which\ returns\ a\ bar\ chart\ of\ the\ population\ of\ colony\ A\ \r\n\ and\ colony\ B\r\n
+numComments=7

@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=WindTurbine
+comment0.text=\r\n\ Class\ WindTurbine\ simulates\ a\ type\ of\ power\ generator.\r\n\r\n\ @author\ David\ Shaun\ Brown\r\n\ @version\ 2023.05.03\r\n\ \r\n\ Qustion\ 2\ ci)\ modify\ the\ header\r\n
+comment1.params=aName
+comment1.target=WindTurbine(java.lang.String)
+comment1.text=\r\n\ Constructor\ for\ the\ subclass\ Windturbine\r\n\ \r\n\ @param\ aName\ -\ name\ of\ the\ field\r\n
+comment2.params=
+comment2.target=void\ flipOperating()
+comment2.text=\r\n\ Question\ cii)\ Override\ the\ flipOperating\ method\r\n\ \r\n\ Flips\ the\ value\ of\ operating\ from\ true\ to\ false\r\n\ or\ vice\ versa\r\n\ depending\ if\ windy\ is\ true\ or\ false\r\n
+comment3.params=
+comment3.target=boolean\ isWindy()
+comment3.text=\r\n\ Getter\ method\ for\ windy.\r\n\ @return\ true\ if\ windy,\ otherwise\ false.\r\n
+comment4.params=isWindy
+comment4.target=void\ setWindy(boolean)
+comment4.text=\r\n\ Setter\ for\ windy\ that\ can\ also\ change\ operating\ status.\r\n\ @param\ isWindy\ The\ boolean\ value\ to\ set\ windy\ \r\n
+numComments=5

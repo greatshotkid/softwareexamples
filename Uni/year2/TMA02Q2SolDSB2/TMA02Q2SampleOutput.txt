@@ -1,0 +1,21 @@
+BusRoutes br = new BusRoutes();
+br.accessInfoService();
+
+
+Welcome to the Bus Information Service.
+Type where you want to go to -> School
+
+Here is a list of buses:
+
+22
+13
+
+Enter bus number to get a full route -> 13
+
+Bus number 13 route: 
+High Street
+Hospital
+Brown Street
+School
+Station
+

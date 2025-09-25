@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=PowerPlant
+comment0.text=\r\n\ Question\ 2\ part\ ai\ and\ aii\r\n\ \r\n\ PowerPlant\ interface\r\n\ Classes\ implementing\ this\ interface\ are\ able\ to\ change\ \r\n\ their\ operating\ status\r\n\ \r\nThe\ toGrid\ method\ allows\ us\ to\ specify\ how\ much\ energy\r\nis\ going\ into\ the\ grid\r\n\r\nThe\ fromGrid\ method\ allows\ us\ to\ specify\ how\ much\ energy\r\nis\ coming\ from\ the\ grid\r\n\ @author\ David\ Shaun\ Brown\r\n\ @version\ 2023.05.02\r\n
+comment1.params=
+comment1.target=void\ flipOperating()
+comment2.params=kWh
+comment2.target=int\ toGrid(int)
+comment3.params=kWh
+comment3.target=void\ fromGrid(int)
+numComments=4

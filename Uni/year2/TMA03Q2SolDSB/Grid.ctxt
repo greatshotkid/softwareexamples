@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Grid
+comment0.text=\r\n\ Class\ Grid\ simulates\ an\ electricity\ grid\ connected\ \r\n\ to\ power\ generators\ of\ various\ types.\r\n\r\n\ @author\ David\ Shaun\ Brown\r\n\ @version\ 2023.05.04\r\n
+comment1.params=
+comment1.target=Grid()
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Grid.\r\n
+comment2.params=name\ kWhOut
+comment2.target=void\ grid2Generator(Generator,\ int)
+comment2.text=\r\n\ Question\ 2\ dii)\r\n\ This\ method\ transfers\ energy\ form\ gridStore\ to\ the\ specified\ generator\r\n\ \r\n\ @param\ Generator\ -generator\ to\ transfer\ energy\ to\r\n\ @param\ kWhOut\ -\ how\ much\ energy\ to\ transfer\ to\ generator\r\n\ \r\n\ @return\ message\ displayed\ if\ insufficient\ energy\ in\ grid\ store\ \r\n
+comment3.params=
+comment3.target=java.lang.String\ toString()
+comment3.text=\r\n\ Question\ 2\ diii)\ add\ a\ toString\ method...\r\n\ \r\n\ This\ method\ returns\ information\ that\ tells\ us\ which\ generators\ are\ operating\r\n\ \r\n\ @return\ String\ telling\ us\ which\ generators\ are\ operating\r\n
+comment4.params=
+comment4.target=void\ display()
+comment4.text=\r\n\ Displays\ the\ String\ representation\ of\ the\ grid\r\n
+comment5.params=aGenerator
+comment5.target=void\ addGenerator(Generator)
+comment5.text=\r\n\ @param\ aGenerator\ The\ generator\ to\ be\ added\ to\ the\ list\ of\ generators\r\n
+comment6.params=g\ kWattHrs
+comment6.target=void\ generator2Grid(Generator,\ int)
+comment6.text=\r\n\ Attempts\ to\ increases\ the\ gridStore\ \r\n\ and\ reduces\ the\ store\ of\ the\ generator\ by\ the\r\n\ same\ amount\ up\ to\ the\ amount\ available\r\n\ \r\n\ @param\ g\ The\ generator\ to\ receive\ energy\ from\r\n\ @param\ kWattHrs\ The\ amount\ of\ energy\ to\ receive\ if\ available\r\n
+numComments=7
