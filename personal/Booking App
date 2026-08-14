@@ -1,0 +1,8 @@
+This is an MVP for an appointment booking app
+this first version has basic formatting
+but has the following functionalitity:
+sign up/sign in
+add appointments
+edit appoinments
+delete appointments
+sign out
