@@ -66,11 +66,16 @@ export default function AppointmentForm() {
         return
       }
 
+      console.log(
+        'Logged-in user:',
+        user.id
+      )
+
       // -----------------------------------
       // 2. Upload image if selected
       // -----------------------------------
 
-      let imageUrl = null
+      let imagePath = null
 
       if (image) {
         const fileExt =
@@ -85,8 +90,12 @@ export default function AppointmentForm() {
             .toString(36)
             .substring(2, 8)}.${fileExt}`
 
-        // Store image inside the user's
-        // own folder
+        // -----------------------------------
+        // IMPORTANT:
+        // Store the image inside the
+        // logged-in user's own folder.
+        // -----------------------------------
+
         const filePath =
           `${user.id}/${fileName}`
 
@@ -95,17 +104,18 @@ export default function AppointmentForm() {
           filePath
         )
 
-        const { error: uploadError } =
-          await supabase.storage
-            .from('tattoo-images')
-            .upload(
-              filePath,
-              image,
-              {
-                cacheControl: '3600',
-                upsert: false
-              }
-            )
+        const {
+          error: uploadError
+        } = await supabase.storage
+          .from('tattoo-images')
+          .upload(
+            filePath,
+            image,
+            {
+              cacheControl: '3600',
+              upsert: false
+            }
+          )
 
         if (uploadError) {
           console.log(
@@ -123,26 +133,24 @@ export default function AppointmentForm() {
         }
 
         // -----------------------------------
-        // 3. Get image URL
+        // IMPORTANT:
+        //
+        // We DO NOT use getPublicUrl()
+        // because the bucket is private.
+        //
+        // Store the Storage path instead.
         // -----------------------------------
 
-        const {
-          data: publicUrlData
-        } = supabase.storage
-          .from('tattoo-images')
-          .getPublicUrl(filePath)
-
-        imageUrl =
-          publicUrlData.publicUrl
+        imagePath = filePath
 
         console.log(
-          'Image URL:',
-          imageUrl
+          'Image storage path:',
+          imagePath
         )
       }
 
       // -----------------------------------
-      // 4. Save appointment
+      // 3. Save appointment
       // -----------------------------------
 
       const {
@@ -169,8 +177,10 @@ export default function AppointmentForm() {
             notes:
               notes || null,
 
+            // Store the private Storage path
+            // rather than a public URL
             tattoo_image_url:
-              imageUrl,
+              imagePath,
 
             user_id:
               user.id
@@ -193,7 +203,7 @@ export default function AppointmentForm() {
       }
 
       // -----------------------------------
-      // 5. Success
+      // 4. Success
       // -----------------------------------
 
       alert(
@@ -201,7 +211,7 @@ export default function AppointmentForm() {
       )
 
       // -----------------------------------
-      // 6. Reset form
+      // 5. Reset form
       // -----------------------------------
 
       setCustomerName('')
@@ -244,7 +254,9 @@ export default function AppointmentForm() {
 
       <form onSubmit={handleSubmit}>
 
+        {/* -------------------------------- */}
         {/* Customer Name */}
+        {/* -------------------------------- */}
 
         <input
           type="text"
@@ -261,7 +273,9 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* -------------------------------- */}
         {/* Phone Number */}
+        {/* -------------------------------- */}
 
         <input
           type="tel"
@@ -278,7 +292,9 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* -------------------------------- */}
         {/* Email */}
+        {/* -------------------------------- */}
 
         <input
           type="email"
@@ -294,7 +310,9 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* -------------------------------- */}
         {/* Appointment Start */}
+        {/* -------------------------------- */}
 
         <label>
           Appointment Start
@@ -316,7 +334,9 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* -------------------------------- */}
         {/* Duration */}
+        {/* -------------------------------- */}
 
         <label>
           Duration (Minutes)
@@ -340,7 +360,9 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* -------------------------------- */}
         {/* Notes */}
+        {/* -------------------------------- */}
 
         <textarea
           placeholder="Tattoo Notes"
@@ -355,7 +377,9 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* -------------------------------- */}
         {/* Tattoo Reference Image */}
+        {/* -------------------------------- */}
 
         <label>
           Tattoo Reference Image
@@ -379,7 +403,9 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* -------------------------------- */}
         {/* Selected Image */}
+        {/* -------------------------------- */}
 
         {image && (
           <p>
@@ -390,7 +416,9 @@ export default function AppointmentForm() {
           </p>
         )}
 
+        {/* -------------------------------- */}
         {/* Submit */}
+        {/* -------------------------------- */}
 
         <button
           type="submit"
@@ -404,3 +432,4 @@ export default function AppointmentForm() {
       </form>
     </div>
   )
+}
