@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { supabase } from '../supabase'
 
@@ -12,8 +11,7 @@ export default function AppointmentForm() {
   const [email, setEmail] =
     useState('')
 
-  const [appointmentStart,
-    setAppointmentStart] =
+  const [appointmentStart, setAppointmentStart] =
     useState('')
 
   const [duration, setDuration] =
@@ -34,23 +32,80 @@ export default function AppointmentForm() {
     setLoading(true)
 
     try {
+      // -----------------------------------
+      // 1. Get logged-in user
+      // -----------------------------------
+
+      const {
+        data: { user },
+        error: userError
+      } = await supabase.auth.getUser()
+
+      if (userError) {
+        console.log(
+          'User authentication error:',
+          userError
+        )
+
+        alert(
+          'Unable to verify your account'
+        )
+
+        setLoading(false)
+
+        return
+      }
+
+      if (!user) {
+        alert(
+          'You must be logged in to create an appointment'
+        )
+
+        setLoading(false)
+
+        return
+      }
+
+      // -----------------------------------
+      // 2. Upload image if selected
+      // -----------------------------------
+
       let imageUrl = null
 
-      // Upload image if selected
       if (image) {
         const fileExt =
-          image.name.split('.').pop()
+          image.name
+            .split('.')
+            .pop()
+            .toLowerCase()
 
+        // Create a unique filename
         const fileName =
-          `${Date.now()}.${fileExt}`
+          `${Date.now()}-${Math.random()
+            .toString(36)
+            .substring(2, 8)}.${fileExt}`
 
+        // Store image inside the user's
+        // own folder
         const filePath =
-          `tattoos/${fileName}`
+          `${user.id}/${fileName}`
+
+        console.log(
+          'Uploading image to:',
+          filePath
+        )
 
         const { error: uploadError } =
           await supabase.storage
             .from('tattoo-images')
-            .upload(filePath, image)
+            .upload(
+              filePath,
+              image,
+              {
+                cacheControl: '3600',
+                upsert: false
+              }
+            )
 
         if (uploadError) {
           console.log(
@@ -58,14 +113,19 @@ export default function AppointmentForm() {
             uploadError
           )
 
-          alert('Image upload failed')
+          alert(
+            `Image upload failed: ${uploadError.message}`
+          )
 
           setLoading(false)
 
           return
         }
 
-        // Get public URL
+        // -----------------------------------
+        // 3. Get image URL
+        // -----------------------------------
+
         const {
           data: publicUrlData
         } = supabase.storage
@@ -74,23 +134,20 @@ export default function AppointmentForm() {
 
         imageUrl =
           publicUrlData.publicUrl
+
+        console.log(
+          'Image URL:',
+          imageUrl
+        )
       }
 
-      // Get logged in user
+      // -----------------------------------
+      // 4. Save appointment
+      // -----------------------------------
+
       const {
-        data: { user }
-      } = await supabase.auth.getUser()
-
-      if (!user) {
-        alert('You must be logged in')
-
-        setLoading(false)
-
-        return
-      }
-
-      // Save appointment to database
-      const { error } = await supabase
+        error: databaseError
+      } = await supabase
         .from('appointments')
         .insert([
           {
@@ -100,7 +157,8 @@ export default function AppointmentForm() {
             phone_number:
               phoneNumber,
 
-            email: email,
+            email:
+              email || null,
 
             appointment_start:
               appointmentStart,
@@ -108,23 +166,25 @@ export default function AppointmentForm() {
             duration_minutes:
               Number(duration),
 
-            notes: notes,
+            notes:
+              notes || null,
 
             tattoo_image_url:
               imageUrl,
 
-            user_id: user.id
+            user_id:
+              user.id
           }
         ])
 
-      if (error) {
+      if (databaseError) {
         console.log(
           'Database error:',
-          error
+          databaseError
         )
 
         alert(
-          'Failed to save appointment'
+          `Failed to save appointment: ${databaseError.message}`
         )
 
         setLoading(false)
@@ -132,9 +192,18 @@ export default function AppointmentForm() {
         return
       }
 
-      alert('Appointment saved')
+      // -----------------------------------
+      // 5. Success
+      // -----------------------------------
 
-      // Reset form
+      alert(
+        'Appointment saved successfully'
+      )
+
+      // -----------------------------------
+      // 6. Reset form
+      // -----------------------------------
+
       setCustomerName('')
       setPhoneNumber('')
       setEmail('')
@@ -143,10 +212,25 @@ export default function AppointmentForm() {
       setNotes('')
       setImage(null)
 
-    } catch (error) {
-      console.log(error)
+      // Reset file input
+      const fileInput =
+        document.querySelector(
+          'input[type="file"]'
+        )
 
-      alert('Something went wrong')
+      if (fileInput) {
+        fileInput.value = ''
+      }
+
+    } catch (error) {
+      console.log(
+        'Unexpected error:',
+        error
+      )
+
+      alert(
+        'Something went wrong while saving the appointment'
+      )
     }
 
     setLoading(false)
@@ -159,6 +243,8 @@ export default function AppointmentForm() {
       </h2>
 
       <form onSubmit={handleSubmit}>
+
+        {/* Customer Name */}
 
         <input
           type="text"
@@ -175,6 +261,8 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* Phone Number */}
+
         <input
           type="tel"
           placeholder="Phone Number"
@@ -190,6 +278,8 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* Email */}
+
         <input
           type="email"
           placeholder="Email (Optional)"
@@ -203,6 +293,8 @@ export default function AppointmentForm() {
 
         <br />
         <br />
+
+        {/* Appointment Start */}
 
         <label>
           Appointment Start
@@ -223,6 +315,8 @@ export default function AppointmentForm() {
 
         <br />
         <br />
+
+        {/* Duration */}
 
         <label>
           Duration (Minutes)
@@ -246,6 +340,8 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* Notes */}
+
         <textarea
           placeholder="Tattoo Notes"
           value={notes}
@@ -259,6 +355,8 @@ export default function AppointmentForm() {
         <br />
         <br />
 
+        {/* Tattoo Reference Image */}
+
         <label>
           Tattoo Reference Image
         </label>
@@ -268,15 +366,31 @@ export default function AppointmentForm() {
         <input
           type="file"
           accept="image/*"
-          onChange={(e) =>
+          onChange={(e) => {
+            const selectedFile =
+              e.target.files?.[0]
+
             setImage(
-              e.target.files[0]
+              selectedFile || null
             )
-          }
+          }}
         />
 
         <br />
         <br />
+
+        {/* Selected Image */}
+
+        {image && (
+          <p>
+            Selected image:{' '}
+            <strong>
+              {image.name}
+            </strong>
+          </p>
+        )}
+
+        {/* Submit */}
 
         <button
           type="submit"
@@ -290,5 +404,3 @@ export default function AppointmentForm() {
       </form>
     </div>
   )
-}
-
