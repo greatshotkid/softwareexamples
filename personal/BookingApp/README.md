@@ -1,8 +1,49 @@
-This is a MVP for a booking app
-It has basic formatting to allow concentration on functionality
-functionality includes:
-sign up/sign in
-add/view/edit/delete appoinments
-security includes:
-row level security
-users can only add/view/edit/delete appointments made by them
+# Tattoo Studio Booking System
+
+A full-stack appointment management application designed for tattoo artists.
+
+## Features
+
+- User authentication
+- Create appointments
+- Interactive calendar
+- Customer name and contact information
+- Optional customer email
+- Appointment duration
+- Tattoo reference image uploads
+- Edit appointments
+- Delete appointments
+- User-specific appointment data
+- Supabase Row Level Security
+- Responsive dashboard interface
+
+## Technologies
+
+- React
+- JavaScript
+- Vite
+- Supabase
+- PostgreSQL
+- FullCalendar
+- CSS
+- GitHub
+
+## Architecture
+
+The frontend is built using React and Vite.
+
+Supabase provides:
+
+- Authentication
+- PostgreSQL database
+- Cloud storage
+- Row Level Security
+- API access
+
+## Security
+
+Row Level Security policies are used to ensure users can only access their own appointment data.
+
+## Status
+
+Currently under development.
