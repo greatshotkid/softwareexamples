@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -7,21 +6,33 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { supabase } from '../supabase'
 
 export default function Calendar() {
+  // -----------------------------------
   // Appointments state
+  // -----------------------------------
+
   const [appointments, setAppointments] =
     useState([])
 
+  // -----------------------------------
   // Selected appointment for modal
+  // -----------------------------------
+
   const [
     selectedAppointment,
     setSelectedAppointment
   ] = useState(null)
 
+  // -----------------------------------
   // Edit mode
+  // -----------------------------------
+
   const [isEditing, setIsEditing] =
     useState(false)
 
+  // -----------------------------------
   // Edit form states
+  // -----------------------------------
+
   const [editName, setEditName] =
     useState('')
 
@@ -34,74 +45,178 @@ export default function Calendar() {
   const [editNotes, setEditNotes] =
     useState('')
 
-  // Logout function
+  // -----------------------------------
+  // Logout
+  // -----------------------------------
+
   const handleLogout = async () => {
-    await supabase.auth.signOut()
+    const { error } =
+      await supabase.auth.signOut()
+
+    if (error) {
+      console.log(
+        'Logout error:',
+        error
+      )
+
+      alert('Logout failed')
+
+      return
+    }
+
+    console.log('User logged out')
   }
 
+  // -----------------------------------
   // Fetch appointments
+  // -----------------------------------
+
   const fetchAppointments = async () => {
-    // Get current user
+    // Get current logged-in user
     const {
-      data: { user }
+      data: { user },
+      error: userError
     } = await supabase.auth.getUser()
 
-    if (!user) return
+    if (userError) {
+      console.log(
+        'User error:',
+        userError
+      )
 
-    // Fetch ONLY current user's appointments
-    const { data, error } = await supabase
+      return
+    }
+
+    if (!user) {
+      console.log(
+        'No logged-in user'
+      )
+
+      return
+    }
+
+    // Fetch ONLY this user's appointments
+    const {
+      data,
+      error
+    } = await supabase
       .from('appointments')
       .select('*')
-      .eq('user_id', user.id)
+      .eq(
+        'user_id',
+        user.id
+      )
+      .order(
+        'appointment_start',
+        {
+          ascending: true
+        }
+      )
 
     if (error) {
       console.log(
         'Error fetching appointments:',
         error
       )
+
       return
     }
 
-    setAppointments(data)
+    setAppointments(
+      data || []
+    )
   }
 
-  // Load appointments on mount
+  // -----------------------------------
+  // Load appointments when component
+  // mounts
+  // -----------------------------------
+
   useEffect(() => {
     fetchAppointments()
   }, [])
 
+  // -----------------------------------
   // Delete appointment
+  // -----------------------------------
+
   const deleteAppointment = async () => {
-    const confirmDelete = window.confirm(
-      'Delete this appointment?'
-    )
+    if (!selectedAppointment) {
+      return
+    }
 
-    if (!confirmDelete) return
+    const confirmDelete =
+      window.confirm(
+        'Delete this appointment?'
+      )
 
-    const { error } = await supabase
-      .from('appointments')
-      .delete()
-      .eq('id', selectedAppointment.id)
+    if (!confirmDelete) {
+      return
+    }
 
-    if (error) {
-      console.log(error)
+    const {
+      data: { user }
+    } = await supabase.auth.getUser()
 
-      alert('Delete failed')
+    if (!user) {
+      alert(
+        'You must be logged in'
+      )
 
       return
     }
 
-    alert('Appointment deleted')
+    const {
+      error
+    } = await supabase
+      .from('appointments')
+      .delete()
+      .eq(
+        'id',
+        selectedAppointment.id
+      )
+      .eq(
+        'user_id',
+        user.id
+      )
 
-    setSelectedAppointment(null)
+    if (error) {
+      console.log(
+        'Delete error:',
+        error
+      )
+
+      alert(
+        'Delete failed'
+      )
+
+      return
+    }
+
+    alert(
+      'Appointment deleted'
+    )
+
+    setSelectedAppointment(
+      null
+    )
+
+    setIsEditing(false)
 
     fetchAppointments()
   }
 
+  // -----------------------------------
   // Start editing
+  // -----------------------------------
+
   const startEditing = () => {
+    if (!selectedAppointment) {
+      return
+    }
+
     setEditName(
-      selectedAppointment.title
+      selectedAppointment.title || ''
     )
 
     setEditPhone(
@@ -119,52 +234,187 @@ export default function Calendar() {
     setIsEditing(true)
   }
 
+  // -----------------------------------
   // Update appointment
+  // -----------------------------------
+
   const updateAppointment = async () => {
-    const { error } = await supabase
-      .from('appointments')
-      .update({
-        customer_name: editName,
+    if (!selectedAppointment) {
+      return
+    }
 
-        phone_number: editPhone,
+    const {
+      data: { user }
+    } = await supabase.auth.getUser()
 
-        email: editEmail,
-
-        notes: editNotes
-      })
-      .eq('id', selectedAppointment.id)
-
-    if (error) {
-      console.log(error)
-
-      alert('Update failed')
+    if (!user) {
+      alert(
+        'You must be logged in'
+      )
 
       return
     }
 
-    alert('Appointment updated')
+    const {
+      error
+    } = await supabase
+      .from('appointments')
+      .update({
+        customer_name:
+          editName,
+
+        phone_number:
+          editPhone,
+
+        email:
+          editEmail || null,
+
+        notes:
+          editNotes || null
+      })
+      .eq(
+        'id',
+        selectedAppointment.id
+      )
+      .eq(
+        'user_id',
+        user.id
+      )
+
+    if (error) {
+      console.log(
+        'Update error:',
+        error
+      )
+
+      alert(
+        'Update failed'
+      )
+
+      return
+    }
+
+    alert(
+      'Appointment updated'
+    )
 
     setIsEditing(false)
 
-    setSelectedAppointment(null)
+    setSelectedAppointment(
+      null
+    )
 
     fetchAppointments()
   }
 
+  // -----------------------------------
+  // Open appointment
+  // -----------------------------------
+
+  const handleAppointmentClick =
+    async (info) => {
+      const appointment =
+        info.event.extendedProps
+
+      let signedImageUrl = null
+
+      // -----------------------------------
+      // Create signed URL for private image
+      // -----------------------------------
+
+      if (appointment.image) {
+        console.log(
+          'Creating signed URL for:',
+          appointment.image
+        )
+
+        const {
+          data,
+          error
+        } = await supabase.storage
+          .from('tattoo-images')
+          .createSignedUrl(
+            appointment.image,
+            3600
+          )
+
+        if (error) {
+          console.log(
+            'Signed URL error:',
+            error
+          )
+        } else {
+          signedImageUrl =
+            data?.signedUrl || null
+        }
+      }
+
+      // -----------------------------------
+      // Set selected appointment
+      // -----------------------------------
+
+      setSelectedAppointment({
+        id:
+          info.event.id,
+
+        title:
+          info.event.title,
+
+        start:
+          info.event.start,
+
+        end:
+          info.event.end,
+
+        phone:
+          appointment.phone,
+
+        email:
+          appointment.email,
+
+        notes:
+          appointment.notes,
+
+        image:
+          signedImageUrl,
+
+        imagePath:
+          appointment.image
+      })
+
+      setIsEditing(false)
+    }
+
   return (
     <div>
+
+      {/* -------------------------------- */}
+      {/* Page heading */}
+      {/* -------------------------------- */}
+
       <h1>
         Tattoo Appointments
       </h1>
 
-      <button onClick={handleLogout}>
+      {/* -------------------------------- */}
+      {/* Logout */}
+      {/* -------------------------------- */}
+
+      <button
+        onClick={handleLogout}
+      >
         Logout
       </button>
 
       <br />
       <br />
 
+      {/* -------------------------------- */}
+      {/* Calendar */}
+      {/* -------------------------------- */}
+
       <FullCalendar
+
         plugins={[
           dayGridPlugin,
           timeGridPlugin,
@@ -183,17 +433,23 @@ export default function Calendar() {
 
         slotMaxTime="22:00:00"
 
-        // Convert DB appointments
+        // --------------------------------
+        // Convert database appointments
         // into calendar events
+        // --------------------------------
+
         events={appointments.map(
           (appointment) => {
-            // Start date
-            const start = new Date(
-              appointment.appointment_start
-            )
 
-            // End date
-            const end = new Date(start)
+            // Appointment start
+            const start =
+              new Date(
+                appointment.appointment_start
+              )
+
+            // Appointment end
+            const end =
+              new Date(start)
 
             // Duration
             const duration =
@@ -203,21 +459,25 @@ export default function Calendar() {
 
             // Add duration
             end.setMinutes(
-              end.getMinutes() + duration
+              end.getMinutes() +
+              duration
             )
 
-            // Return event
             return {
-              id: appointment.id,
+              id:
+                appointment.id,
 
               title:
                 appointment.customer_name,
 
-              start: start,
+              start:
+                start,
 
-              end: end,
+              end:
+                end,
 
               extendedProps: {
+
                 phone:
                   appointment.phone_number,
 
@@ -227,41 +487,55 @@ export default function Calendar() {
                 notes:
                   appointment.notes,
 
+                // IMPORTANT:
+                // This is now a STORAGE PATH,
+                // not a public URL.
                 image:
-                  appointment
-                    .tattoo_image_url
+                  appointment.tattoo_image_url
               }
             }
           }
         )}
 
+        // --------------------------------
         // Appointment click
-        eventClick={(info) => {
-          setSelectedAppointment({
-            id: info.event.id,
+        // --------------------------------
 
-            title: info.event.title,
+        eventClick={
+          handleAppointmentClick
+        }
 
-            start: info.event.start,
-
-            end: info.event.end,
-
-            ...info.event.extendedProps
-          })
-        }}
       />
 
-      {/* Modal */}
+      {/* -------------------------------- */}
+      {/* Appointment Modal */}
+      {/* -------------------------------- */}
+
       {selectedAppointment && (
+
         <div className="modal-overlay">
+
           <div className="modal">
 
+            {/* ========================== */}
+            {/* EDIT MODE */}
+            {/* ========================== */}
+
             {isEditing ? (
+
               <div>
 
                 <h2>
                   Edit Appointment
                 </h2>
+
+                {/* Customer name */}
+
+                <label>
+                  Customer Name
+                </label>
+
+                <br />
 
                 <input
                   type="text"
@@ -274,6 +548,14 @@ export default function Calendar() {
                 />
 
                 <br />
+                <br />
+
+                {/* Phone */}
+
+                <label>
+                  Phone Number
+                </label>
+
                 <br />
 
                 <input
@@ -289,6 +571,14 @@ export default function Calendar() {
                 <br />
                 <br />
 
+                {/* Email */}
+
+                <label>
+                  Email
+                </label>
+
+                <br />
+
                 <input
                   type="email"
                   value={editEmail}
@@ -300,6 +590,14 @@ export default function Calendar() {
                 />
 
                 <br />
+                <br />
+
+                {/* Notes */}
+
+                <label>
+                  Tattoo Notes
+                </label>
+
                 <br />
 
                 <textarea
@@ -314,6 +612,8 @@ export default function Calendar() {
                 <br />
                 <br />
 
+                {/* Save */}
+
                 <button
                   onClick={
                     updateAppointment
@@ -325,6 +625,8 @@ export default function Calendar() {
                 <br />
                 <br />
 
+                {/* Cancel */}
+
                 <button
                   onClick={() =>
                     setIsEditing(false)
@@ -334,68 +636,132 @@ export default function Calendar() {
                 </button>
 
               </div>
+
             ) : (
+
+              /* ========================== */
+              /* VIEW MODE */
+              /* ========================== */
+
               <div>
 
                 <h2>
-                  {selectedAppointment.title}
+                  {
+                    selectedAppointment.title
+                  }
                 </h2>
 
+                {/* Phone */}
+
                 <p>
-                  <strong>Phone:</strong>
+                  <strong>
+                    Phone:
+                  </strong>
                   {' '}
                   {
-                    selectedAppointment.phone
+                    selectedAppointment.phone ||
+                    'Not provided'
                   }
                 </p>
 
+                {/* Email */}
+
                 <p>
-                  <strong>Email:</strong>
+                  <strong>
+                    Email:
+                  </strong>
                   {' '}
                   {
-                    selectedAppointment.email
+                    selectedAppointment.email ||
+                    'Not provided'
                   }
                 </p>
 
-                <p>
-                  <strong>Start:</strong>
-                  {' '}
-                  {selectedAppointment.start.toLocaleString()}
-                </p>
+                {/* Start */}
 
                 <p>
-                  <strong>End:</strong>
-                  {' '}
-                  {selectedAppointment.end.toLocaleString()}
-                </p>
-
-                <p>
-                  <strong>Notes:</strong>
+                  <strong>
+                    Start:
+                  </strong>
                   {' '}
                   {
-                    selectedAppointment.notes
+                    selectedAppointment.start
+                      ?.toLocaleString()
                   }
                 </p>
+
+                {/* End */}
+
+                <p>
+                  <strong>
+                    End:
+                  </strong>
+                  {' '}
+                  {
+                    selectedAppointment.end
+                      ?.toLocaleString()
+                  }
+                </p>
+
+                {/* Notes */}
+
+                <p>
+                  <strong>
+                    Notes:
+                  </strong>
+                  {' '}
+                  {
+                    selectedAppointment.notes ||
+                    'No notes'
+                  }
+                </p>
+
+                {/* ====================== */}
+                {/* Tattoo Image */}
+                {/* ====================== */}
 
                 {selectedAppointment.image && (
-                  <img
-                    src={selectedAppointment.image}
-                    alt="Tattoo Reference"
-                    className="tattoo-reference-image"
-                  />
+
+                  <div>
+
+                    <p>
+                      <strong>
+                        Tattoo Reference:
+                      </strong>
+                    </p>
+
+                    <img
+                      src={
+                        selectedAppointment.image
+                      }
+                      alt="Tattoo Reference"
+                      className="tattoo-reference-image"
+                    />
+
+                  </div>
+
                 )}
 
                 <br />
-                <br />
+
+                {/* ====================== */}
+                {/* Edit */}
+                {/* ====================== */}
 
                 <button
-                  onClick={startEditing}
+                  onClick={
+                    startEditing
+                  }
                 >
                   Edit Appointment
                 </button>
 
                 <br />
                 <br />
+
+                {/* ====================== */}
+                {/* Delete */}
+                {/* ====================== */}
 
                 <button
                   onClick={
@@ -408,25 +774,34 @@ export default function Calendar() {
                 <br />
                 <br />
 
+                {/* ====================== */}
+                {/* Close */}
+                {/* ====================== */}
+
                 <button
                   onClick={() => {
+
                     setSelectedAppointment(
                       null
                     )
 
                     setIsEditing(false)
+
                   }}
                 >
                   Close
                 </button>
 
               </div>
+
             )}
 
           </div>
+
         </div>
+
       )}
+
     </div>
   )
 }
-
