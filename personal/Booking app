@@ -1,0 +1,11 @@
+Thia is a MVP for a booking app
+this first version has basic formatting
+this version has the following functionality:
+sign up / sign in
+add appointment
+view and edit appoinments
+view and delete appointments
+
+It has the following security:
+only logged in users can view/add/edit/delete appoinments
+this allows multiple users to use the system whilst keeping other users info secure
